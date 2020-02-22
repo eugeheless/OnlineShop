@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Infrastructure;
 
 namespace OnlineShop.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20200221131426_order")]
+    partial class order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,24 +23,20 @@ namespace OnlineShop.Infrastructure.Migrations
             modelBuilder.Entity("OnlineShop.Domain.Cart", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.HasKey("Id", "OrderId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.HasIndex("Id", "OrderId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("Carts");
                 });
@@ -64,9 +62,6 @@ namespace OnlineShop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Clients");
                 });
 
@@ -76,15 +71,6 @@ namespace OnlineShop.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartOrderId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Cost")
                         .HasColumnType("int");
@@ -96,14 +82,6 @@ namespace OnlineShop.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("CartId1", "CartOrderId");
 
                     b.ToTable("Items");
                 });
@@ -126,39 +104,7 @@ namespace OnlineShop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientID");
-
-                    b.HasIndex("Id", "ClientID")
-                        .IsUnique();
-
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("OnlineShop.Domain.Cart", b =>
-                {
-                    b.HasOne("OnlineShop.Domain.Order", "Order")
-                        .WithOne("Cart")
-                        .HasForeignKey("OnlineShop.Domain.Cart", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OnlineShop.Domain.Item", b =>
-                {
-                    b.HasOne("OnlineShop.Domain.Cart", "Cart")
-                        .WithMany("Items")
-                        .HasForeignKey("CartId1", "CartOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OnlineShop.Domain.Order", b =>
-                {
-                    b.HasOne("OnlineShop.Domain.Client", "Client")
-                        .WithMany("Orders")
-                        .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

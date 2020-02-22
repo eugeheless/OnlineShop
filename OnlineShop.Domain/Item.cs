@@ -6,9 +6,14 @@ namespace OnlineShop.Domain
 {
     public class Item
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
         public int Count { get; set; }
+
+
+
+        public int CartId { get; set; }
+        public Cart Cart { get; set; }
     }
 }
