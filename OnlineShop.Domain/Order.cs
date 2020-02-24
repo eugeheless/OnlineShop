@@ -6,15 +6,21 @@ namespace OnlineShop.Domain
 {
     public class Order
     {
+        public Order()
+        {
+            Items = new HashSet<OrderItem>();
+        }
         public int Id { get; set; }
-        public int ClientID { get; set; }
         public string OrderDate { get; set; }
         public string DoneDate { get; set; }
-        public Client Client { get; set; } //Навигационное свойство
 
 
+        public int ClientID { get; set; }//Навиг свойство
+        public Client Client { get; set; } //к клиенту
 
-        public Cart Cart { get; set; }
+
+        public virtual ICollection<OrderItem> Items { get; set; }
+
 
     }
 }

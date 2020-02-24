@@ -18,31 +18,6 @@ namespace OnlineShop.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("OnlineShop.Domain.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id", "OrderId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.HasIndex("Id", "OrderId")
-                        .IsUnique();
-
-                    b.ToTable("Carts");
-                });
-
             modelBuilder.Entity("OnlineShop.Domain.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -54,18 +29,17 @@ namespace OnlineShop.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhoneNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
@@ -77,15 +51,6 @@ namespace OnlineShop.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartOrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Cost")
                         .HasColumnType("int");
 
@@ -96,14 +61,6 @@ namespace OnlineShop.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CartId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("CartId1", "CartOrderId");
 
                     b.ToTable("Items");
                 });
@@ -119,37 +76,33 @@ namespace OnlineShop.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("DoneDate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderDate")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientID");
 
-                    b.HasIndex("Id", "ClientID")
-                        .IsUnique();
-
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("OnlineShop.Domain.Cart", b =>
+            modelBuilder.Entity("OnlineShop.Domain.OrderItem", b =>
                 {
-                    b.HasOne("OnlineShop.Domain.Order", "Order")
-                        .WithOne("Cart")
-                        .HasForeignKey("OnlineShop.Domain.Cart", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
 
-            modelBuilder.Entity("OnlineShop.Domain.Item", b =>
-                {
-                    b.HasOne("OnlineShop.Domain.Cart", "Cart")
-                        .WithMany("Items")
-                        .HasForeignKey("CartId1", "CartOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemId", "OrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("OnlineShop.Domain.Order", b =>
@@ -157,6 +110,21 @@ namespace OnlineShop.Infrastructure.Migrations
                     b.HasOne("OnlineShop.Domain.Client", "Client")
                         .WithMany("Orders")
                         .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineShop.Domain.OrderItem", b =>
+                {
+                    b.HasOne("OnlineShop.Domain.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.Domain.Item", "Item")
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

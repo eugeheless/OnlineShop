@@ -35,33 +35,27 @@ namespace OnlineShop.Presenter
                 //db.Orders.AddRange(order1, order2);
                 //db.SaveChanges();
 
-                Console.WriteLine("Items list");
-                var item = db.Items.ToList();
-                foreach(Item q in item)
-                {
-                    Console.WriteLine($"{q.Id}.{q.Name} = {q.Cost} + {q.Count}");
-                }
+                //Console.WriteLine("Items list");
+                //var item = db.Items.ToList();
+                //foreach(Item q in item)
+                //{
+                //    Console.WriteLine($"{q.Id}.{q.Name} = {q.Cost} + {q.Count}");
+                //}
 
-                Console.WriteLine("Cart list");
-                var cart = db.Carts.ToList();
-                foreach (Cart q in cart)
-                {
-                    Console.WriteLine($"{q.Id}.{q.Number} = {q.Price}");
-                }
 
-                Console.WriteLine("Clients list");
-                var client = db.Clients.ToList();
-                foreach (Client q in client)
-                {
-                    Console.WriteLine($"{q.Id}.{q.Name}  {q.Surname} = {q.Address} + {q.PhoneNumber}");
-                }
+                //Console.WriteLine("Clients list");
+                //var client = db.Clients.ToList();
+                //foreach (Client q in client)
+                //{
+                //    Console.WriteLine($"{q.Id}.{q.Name}  {q.Surname} = {q.Address} + {q.PhoneNumber}");
+                //}
 
-                Console.WriteLine("Orders list");
-                var order = db.Orders.ToList();
-                foreach (Order q in order)
-                {
-                    Console.WriteLine($"{q.Id} = {q.ClientID} = {q.OrderDate} + {q.DoneDate}");
-                }
+                //Console.WriteLine("Orders list");
+                //var order = db.Orders.ToList();
+                //foreach (Order q in order)
+                //{
+                //    Console.WriteLine($"{q.Id} = {q.ClientID} = {q.OrderDate} + {q.DoneDate}");
+                //}
 
                 Console.ReadLine();
 
